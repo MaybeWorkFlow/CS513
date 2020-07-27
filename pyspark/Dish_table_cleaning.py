@@ -67,4 +67,4 @@ df1 = predictions.toDF()
 df1.orderBy('prediction', ascending=False)
 
 # Record data into a CSV after creating clusters
-df.write.csv('Dish_clusters.csv')
+df1.write.csv('Dish_clusters.csv')
