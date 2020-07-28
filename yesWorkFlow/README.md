@@ -42,7 +42,7 @@ $ or2yw -i openRefine/MenuPage.json -o yesWorkFlow/MenuPage_worflow.png -ot png 
 
 # Dish
 
-$ yw graph yesWorkFlow/dish.py | dot -Tpng -o yesWorkFlow/dish.png
+$ yw graph yesWorkFlow/dish.py | dot -Tpng -o yesWorkFlow/Dish_workflow.png
 
 
 ```
