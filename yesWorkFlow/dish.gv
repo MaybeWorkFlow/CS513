@@ -5,7 +5,7 @@ rankdir=TB
 
 /* Title for graph */
 fontname=Courier; fontsize=18; labelloc=t
-label=DataCleanup
+label=Dish_cleanup
 
 /* Start of double cluster for drawing box around nodes in workflow */
 subgraph cluster_workflow_box_outer { label=""; color=black; penwidth=2
@@ -15,17 +15,37 @@ subgraph cluster_workflow_box_inner { label=""; color=white
 node[shape=box style=filled fillcolor="#CCFFCC" peripheries=1 fontname=Courier]
 
 /* Nodes representing atomic programs in workflow */
-"dish/text-transform1" [shape=record rankdir=LR label="{<f0> "dish/text-transform1" |<f1> Converting data to lowercase}"];
+text_transform1 [shape=record rankdir=LR label="{<f0> text_transform1 |<f1> Converting data to lowercase}"];
+text_transform2 [shape=record rankdir=LR label="{<f0> text_transform2 |<f1> trimming whitespace}"];
+csv_transform1 [shape=record rankdir=LR label="{<f0> csv_transform1 |<f1> removing uneeded description field}"];
+csv_transform2 [shape=record rankdir=LR label="{<f0> csv_transform2 |<f1> Cluster rows based on name column to find dupicate entries}"];
 
 /* Style for nodes representing non-parameter data channels in workflow */
 node[shape=box style="rounded,filled" fillcolor="#FFFFCC" peripheries=1 fontname=Helvetica]
 
 /* Nodes for non-parameter data channels in workflow */
+"Dish_lower.csv"
+"Dish_whitespace_cleanup.csv"
+"Dish_description_deleted.csv"
 
 /* Style for nodes representing parameter channels in workflow */
 node[shape=box style="rounded,filled" fillcolor="#FCFCFC" peripheries=1 fontname=Helvetica]
 
 /* Nodes representing parameter channels in workflow */
+
+/* Edges representing connections between programs and channels */
+text_transform1 -> "Dish_lower.csv"
+"expression:value.lower()" -> text_transform1
+"dish.csv" -> text_transform1
+text_transform2 -> "Dish_whitespace_cleanup.csv"
+"expression:value.ltrim()" -> text_transform2
+"expression:value.rtrim()" -> text_transform2
+"Dish_lower.csv" -> text_transform2
+csv_transform1 -> "Dish_description_deleted.csv"
+"drop('description')" -> csv_transform1
+"Dish_whitespace_cleanup.csv" -> csv_transform1
+csv_transform2 -> "Dish_clusters.csv"
+"Dish_description_deleted.csv" -> csv_transform2
 
 /* End of double cluster for drawing box around nodes in workflow */
 }}
