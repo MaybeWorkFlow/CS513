@@ -1,0 +1,19 @@
+// Load CSV data to tables in SQLite
+.mode csv Menu
+.import Menu.csv Menu
+.mode csv MenuItem
+.import MenuItem.csv MenuItem
+.mode csv MenuPage
+.import MenuPage.csv MenuPage
+.mode csv Dish
+.import Menu.csv Dish
+
+
+
+
+
+
+
+
+
+

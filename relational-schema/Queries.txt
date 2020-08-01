@@ -1,0 +1,137 @@
+Uniqueness queries for primary key fields:
+
+SELECT *
+FROM Menu
+GROUP BY id
+HAVING COUNT(*) > 1;
+
+
+SELECT *
+FROM MenuItem 
+GROUP BY id
+HAVING COUNT(*) > 1;
+
+
+SELECT *
+FROM MenuPage
+GROUP BY id
+HAVING COUNT(*) > 1;
+
+
+SELECT *
+FROM Dish
+GROUP BY id
+HAVING COUNT(*) > 1;
+
+
+
+
+
+Foreign Key/Inclusion ICs:
+
+select menu_page_id
+from (select menu_page_id
+from MenuItem group by menu_page_id
+UNION ALL
+select id as menu_page_id
+from MenuPage group by id
+UNION ALL
+select id as menu_page_id
+from MenuPage group by id) group by menu_page_id having count(*)<2;
+
+
+
+select dish_id
+from (select dish_id
+from MenuItem group by dish_id
+UNION ALL
+select id as dish_id
+from Dish group by id
+UNION ALL
+select id as dish_id
+from Dish group by id) group by dish_id having count(*)<2;
+
+
+
+
+select menu_id
+from (select menu_id
+from MenuPage group by menu_id
+UNION ALL
+select id as menu_id
+from Menu group by id
+UNION ALL
+select id as menu_id
+from Menu group by id) group by menu_id having count(*)<2;
+
+
+
+
+Value range ICs:
+
+select *
+from MenuItem
+where price > high_price;
+
+
+select *
+from MenuItem
+where created_at > updated_at;
+
+
+select *
+from Dish
+where first_appeared > last_appeared;
+
+
+select *
+from Dish
+where lowest_price > highest_price;
+
+
+select *
+from Menu
+where page_count < 0 or dish_count < 0;
+
+
+select *
+from MenuItem
+where high_price < 0 or price < 0;
+
+
+select *
+from MenuPage
+where page_number < 0 or full_height < 0 or full_width < 0;
+
+
+select *
+from Dish
+where menus_appeared < 0 or times_appeared < 0 or first_appeared < 0 or last_appeared < 0
+or lowest_price < 0 or highest_price < 0;
+
+
+select *
+from (select * from 
+MenuItem
+join Dish 
+on Dish.id = MenuItem.dish_id)
+where MenuItem.price > Dish.highest_price or MenuItem.price < Dish.lowest_price
+or MenuItem.high_price > Dish.highest_price;
+
+
+select *
+from (select * from
+MenuItem
+join Dish
+on Dish.id = MenuItem.dish_id)
+where MenuItem.created_at <= Dish.first_appeared;
+
+
+
+
+Other ICs:
+select * from
+Menu
+join MenuPage
+on Menu.id = MenuPage.menu_id
+group by menu_id having count(*) < Menu.page_count;

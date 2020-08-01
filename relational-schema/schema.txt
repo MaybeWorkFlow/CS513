@@ -1,0 +1,60 @@
+CREATE TABLE Menu (
+id INTEGER PRIMARY KEY,
+name TEXT,
+sponsor TEXT,
+event TEXT,
+venue TEXT,
+place TEXT,
+physical_description TEXT,
+occasion TEXT,
+notes TEXT,
+call_number TEXT,
+keywords TEXT,
+language TEXT,
+date datetime,
+location TEXT,
+location_type TEXT,
+currency TEXT,
+currency_symbol TEXT,
+status TEXT,
+page_count INTEGER,
+dish_count INTEGER
+);
+
+CREATE TABLE MenuItem (
+id INTEGER PRIMARY KEY,
+menu_page_id INTEGER,
+price REAL,
+high_price REAL,
+dish_id INTEGER,
+created_at DATETIME,
+updated_at DATETIME,
+xpos REAL,
+ypos REAL,
+FOREIGN KEY(menu_page_id) REFERENCES MenuPage(id),
+FOREIGN KEY(dish_id) REFERENCES Dish(id)
+);
+
+CREATE TABLE MenuPage (
+id INTEGER PRIMARY KEY,
+menu_id INTEGER,
+page_number INTEGER,
+image_id INTEGER,
+full_height REAL,
+full_width REAL,
+uuid TEXT,
+FOREIGN KEY(menu_id) REFERENCES Menu(id)
+);
+
+CREATE TABLE Dish (
+id INTEGER PRIMARY KEY,
+name TEXT,
+description TEXT,
+menus_appeared INTEGER,
+times_appeared INTEGER,
+first_appeared DATETIME,
+last_appeared DATETIME,
+lowest_price REAL,
+highest_price REAL
+);
+
