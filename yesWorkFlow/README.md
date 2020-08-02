@@ -28,7 +28,7 @@ $ dot -Tpdf yesWorkFlow/Menu.py -o Menu.pdf
 
 
 # MenuItem
-
+yw graph yesWorkFlow/menuItem.py | dot -Tpng -o yesWorkFlow/MenuItem_workflow.png
 
 
 # MenuPage - Cleaned with OpenRefine
