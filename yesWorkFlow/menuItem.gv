@@ -1,0 +1,50 @@
+
+/* Start of top-level graph */
+digraph Workflow {
+rankdir=TB
+
+/* Title for graph */
+fontname=Courier; fontsize=18; labelloc=t
+label=MenuItem_Contraint
+
+/* Start of double cluster for drawing box around nodes in workflow */
+subgraph cluster_workflow_box_outer { label=""; color=black; penwidth=2
+subgraph cluster_workflow_box_inner { label=""; color=white
+
+/* Style for nodes representing atomic programs in workflow */
+node[shape=box style=filled fillcolor="#CCFFCC" peripheries=1 fontname=Courier]
+
+/* Nodes representing atomic programs in workflow */
+
+/* Style for nodes representing composite programs (sub-workflows) in workflow */
+node[shape=box style=filled fillcolor="#CCFFCC" peripheries=2 fontname=Courier]
+
+/* Nodes representing composite programs (sub-workflows) in workflow */
+contraint_transformation [shape=record rankdir=LR label="{<f0> contraint_transformation |<f1> adding sql integrity constraints}"];
+
+/* Style for nodes representing non-parameter data channels in workflow */
+node[shape=box style="rounded,filled" fillcolor="#FFFFCC" peripheries=1 fontname=Helvetica]
+
+/* Nodes for non-parameter data channels in workflow */
+"MenuItem.csv"
+
+/* Style for nodes representing parameter channels in workflow */
+node[shape=box style="rounded,filled" fillcolor="#FCFCFC" peripheries=1 fontname=Helvetica]
+
+/* Nodes representing parameter channels in workflow */
+
+/* Edges representing connections between programs and channels */
+contraint_transformation -> "MenuItem.csv"
+"id:UNIQUE" -> contraint_transformation
+"menu_page_id:FOREIGN_KEY(menu_page_id)_REFERENCES_MenuPage(id)" -> contraint_transformation
+"(price|high_price):price>high_price" -> contraint_transformation
+"(created_at|updated_at):created_at_>_updated_at" -> contraint_transformation
+"high_price:high_price_>_0" -> contraint_transformation
+"price:price_>_0" -> contraint_transformation
+"MenuItem.csv" -> contraint_transformation
+
+/* End of double cluster for drawing box around nodes in workflow */
+}}
+
+/* End of top-level graph */
+}
